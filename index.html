@@ -144,6 +144,7 @@ button,select{font:inherit;color:inherit}
         <p>お手本は端末に入っている読み上げ音声です。端末やブラウザによって声の種類と質が変わります。発音記号はアメリカ英語です。</p>
       </details>
       <p class="savenote" id="saveNote"></p>
+      <p class="savenote">バージョン 3</p>
     </main>
   </div>
 </div>
@@ -524,11 +525,6 @@ async function checkPron(){
   if(listening && sr){ sr.stop(); return; }
   const it = cur();
   if(synth) synth.cancel();
-  let track = null;
-  if(canMic && holdMic){
-    try{ track = (await ensureMic()).getAudioTracks()[0] || null; }
-    catch(e){ micDenied(); return; }
-  }
   try{ sr = new SR(); }catch(e){ setFb('このブラウザでは発音チェックを使えません。', 'ng'); return; }
   sr.lang = 'en-US'; sr.interimResults = false; sr.maxAlternatives = 5;
   let got = false;
@@ -548,9 +544,7 @@ async function checkPron(){
   };
   sr.onend = () => { listening = false; if(!got) setFb('声を聞き取れませんでした。もう一度試してください。', 'ng'); renderCard(); };
   try{
-    /* 取得済みのマイクを渡せるブラウザでは、ここで許可を聞き直されない */
-    try{ if(track) sr.start(track); else sr.start(); }
-    catch(e){ if(track) sr.start(); else throw e; }
+    sr.start();
     listening = true; setFb('聞き取り中です。単語か例文を言ってください。', ''); renderCard();
   }catch(e){ setFb('発音チェックを開始できませんでした。', 'ng'); }
 }
