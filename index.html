@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Finance フォニックス</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=Noto+Sans:wght@400;600&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#EDF3EC; --surface:#FBFDFA; --ink:#16241D; --muted:#55655C; --line:#C6D4C9;
+  --pine:#1F5A44; --pine-ink:#FFFFFF; --hl:#FFE45C; --red:#B8322A; --soft:#E1EBE2;
+  --f-body:"Atkinson Hyperlegible","BIZ UDPGothic","Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif;
+  --f-ipa:"Noto Sans","Lucida Sans Unicode","Segoe UI","DejaVu Sans",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1813; --surface:#17231C; --ink:#E4ECE6; --muted:#9DB0A4; --line:#2E4036;
+    --pine:#86D0AC; --pine-ink:#0F1813; --hl:#6E5C00; --red:#F0857A; --soft:#1E2D25;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1813; --surface:#17231C; --ink:#E4ECE6; --muted:#9DB0A4; --line:#2E4036;
+  --pine:#86D0AC; --pine-ink:#0F1813; --hl:#6E5C00; --red:#F0857A; --soft:#1E2D25;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;-webkit-text-size-adjust:100%}
+button,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--pine);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 56px}
+
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:18px}
+.top h1{font-size:1.5rem;line-height:1.25;margin:0;font-weight:700}
+.top p{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+.overall{min-width:200px;font-size:.9rem;color:var(--muted)}
+.overall strong{color:var(--ink);font-size:1.05rem}
+.bar{display:block;height:6px;background:var(--soft);border-radius:3px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--pine);border-radius:3px;width:0}
+
+.layout{display:grid;gap:16px}
+.lessons{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.lesson{flex:0 0 auto;min-width:148px;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;scroll-snap-align:start}
+.lesson[aria-current="true"]{border-color:var(--pine);background:var(--soft)}
+.lesson .lt{display:block;font-weight:700;line-height:1.35}
+.lesson .lc{display:block;font-size:.8rem;color:var(--muted)}
+.lesson .num{display:inline-block;min-width:1.3em;color:var(--pine)}
+@media (min-width:880px){
+  .layout{grid-template-columns:232px minmax(0,1fr);gap:28px;align-items:start}
+  .lessons{flex-direction:column;overflow:visible;position:sticky;top:16px;padding:0}
+  .lesson{min-width:0}
+}
+
+.rule h2{font-size:1.2rem;margin:0 0 4px;line-height:1.35}
+.rule p{margin:0;max-width:44em}
+
+.card{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:20px 18px 18px;margin-top:16px}
+@media (min-width:600px){.card{padding:28px 30px 24px}}
+.sound{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:14px}
+.sound-label{font-family:var(--f-ipa);font-weight:600;font-size:1.05rem;color:var(--pine);white-space:nowrap}
+.tip{margin:0;font-size:.95rem;flex:1 1 16em}
+.word-line{display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px 22px;padding-bottom:10px;border-bottom:4px double transparent}
+.card.done .word-line{border-bottom-color:var(--pine)}
+.wcol{min-width:0}
+.word{display:block;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left;font-family:"Atkinson Hyperlegible",sans-serif;font-weight:700;font-size:clamp(2.3rem,10vw,4.4rem);line-height:1.15;letter-spacing:.01em;overflow-wrap:anywhere;color:var(--ink)}
+.pair .word{font-size:clamp(2rem,8vw,3.6rem)}
+.word mark{background:linear-gradient(transparent 56%,var(--hl) 56%);color:inherit;padding:0 .03em}
+.vs{font-size:clamp(1.8rem,7vw,3rem);line-height:1.3;color:var(--line);font-weight:400}
+.meta{margin:4px 0 0;display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline}
+.ipa{font-family:var(--f-ipa);font-size:1.15rem;color:var(--muted)}
+.ja{font-weight:700}
+.note{margin:10px 0 0;font-size:.95rem;border-left:3px solid var(--hl);padding-left:10px}
+.ex{display:flex;gap:12px;align-items:flex-start;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.ex p{margin:0}
+.ex-en{font-size:1.1rem;line-height:1.45}
+.ex-ja{font-size:.9rem;color:var(--muted)}
+.icon-btn{flex:0 0 auto;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--pine);background:transparent;color:var(--pine);cursor:pointer;display:grid;place-items:center}
+.icon-btn svg{width:16px;height:16px;fill:currentColor;margin-left:2px}
+
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.btn{border:1.5px solid var(--pine);background:transparent;color:var(--pine);border-radius:999px;padding:.5em 1.15em;min-height:44px;cursor:pointer;font-weight:700;line-height:1.3}
+.btn.primary{background:var(--pine);color:var(--pine-ink)}
+.btn.quiet{border-color:var(--line);color:var(--ink);font-weight:400}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.on{border-color:var(--red);color:var(--red)}
+.btn.on::before{content:"";display:inline-block;width:.6em;height:.6em;border-radius:50%;background:var(--red);margin-right:.5em;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.btn.on::before{animation:none}}
+.mic{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.mic .acts{margin-top:0}
+.hint{margin:8px 0 0;font-size:.85rem;color:var(--muted)}
+.linkbtn{background:none;border:0;padding:0 .2em;min-height:32px;cursor:pointer;color:var(--pine);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.fb{margin:10px 0 0;min-height:1.7em;font-weight:700}
+.fb.ok{color:var(--pine)}
+.fb.ng{color:var(--red)}
+.nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+.nav .pos{color:var(--muted);font-size:.9rem;margin:0 4px}
+.nav .grow{flex:1 1 auto}
+
+.strip{margin-top:18px}
+.strip h3{font-size:.95rem;margin:0 0 8px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:8px;padding:.25em .7em;min-height:36px;cursor:pointer;font-size:.95rem}
+.chip.done{border-color:var(--pine);color:var(--pine);text-decoration:underline double;text-underline-offset:3px}
+.chip[aria-current="true"]{background:var(--soft);border-color:var(--pine)}
+
+.settings{margin-top:22px;font-size:.92rem}
+.settings summary{cursor:pointer;font-weight:700;min-height:36px}
+.settings label{display:block;margin:8px 0 4px}
+.settings select{max-width:100%;min-height:44px;padding:.3em .5em;background:var(--surface);border:1.5px solid var(--line);border-radius:8px}
+.settings p{margin:8px 0 0;color:var(--muted);max-width:46em}
+.savenote{margin:18px 0 0;font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Finance フォニックス</h1>
+      <p>仕事で使う単語で、つづりと音のルールを口に覚えさせる</p>
+    </div>
+    <div class="overall" aria-live="polite">
+      <span id="ovText"></span>
+      <span class="bar"><i id="ovBar"></i></span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="lessons" id="lessons" aria-label="レッスン"></nav>
+    <main>
+      <section class="rule" id="rule"></section>
+      <section class="card" id="card" aria-label="練習する単語"></section>
+      <section class="strip">
+        <h3>このレッスンの単語</h3>
+        <div class="chips" id="chips"></div>
+      </section>
+      <details class="settings">
+        <summary>お手本の声を変える</summary>
+        <label for="voiceSel">英語の声</label>
+        <select id="voiceSel"></select>
+        <p>お手本は端末に入っている読み上げ音声です。端末やブラウザによって声の種類と質が変わります。発音記号はアメリカ英語です。</p>
+      </details>
+      <p class="savenote" id="saveNote"></p>
+    </main>
+  </div>
+</div>
+
+<script>
+/* ---------- 教材データ ---------- */
+/* 単語は [つづり([]内がハイライト), 発音記号, 意味, 例文, 例文の訳, 補足] */
+const lessons = [
+{id:'short', t:'短母音', d:'a, e, i, o, u を1文字で短く読むときの音です。カタカナの「アイウエオ」とは別の音として覚えます。', g:[
+  {label:'a = /æ/', tip:'「エ」の口の形のまま、あごを下げて「ア」。日本語の「ア」より口が横に広がります。', it:[
+    ['[a]sset','ˈæset','資産','Total assets increased this quarter.','総資産は今四半期に増加しました。'],
+    ['c[a]sh','kæʃ','現金','Cash is tight this month.','今月は資金繰りが厳しいです。'],
+    ['t[a]x','tæks','税金','Income tax expense went up.','法人税等が増えました。'],
+    ['b[a]lance','ˈbæləns','残高','The balance does not match.','残高が合いません。']]},
+  {label:'e = /e/', tip:'日本語の「エ」に近い音。伸ばさず短く切ります。', it:[
+    ['d[e]bt','det','負債・借入','We refinanced the debt.','借入を借り換えました。','b は読みません（レッスン8で扱います）。'],
+    ['cr[e]dit','ˈkredɪt','貸方・与信','Please credit this account.','この勘定を貸方に計上してください。'],
+    ['exp[e]nse','ɪkˈspens','費用','This expense is not deductible.','この費用は損金算入できません。'],
+    ['l[e]dger','ˈledʒər','元帳','Check the general ledger.','総勘定元帳を確認してください。']]},
+  {label:'i = /ɪ/', tip:'「イ」と「エ」の中間。力を抜いて短く。「イー」と伸ばしません。', it:[
+    ['r[i]sk','rɪsk','リスク','This is a key audit risk.','これは監査上の主要なリスクです。'],
+    ['b[i]ll','bɪl','請求する・請求書','We bill the client monthly.','顧客には毎月請求しています。'],
+    ['l[i]m[i]t','ˈlɪmɪt','限度額','We reached the credit limit.','与信限度額に達しました。']]},
+  {label:'o = /ɑː/', tip:'アメリカ英語では「オ」ではなく、口を縦に大きく開けた「ア」です。', it:[
+    ['pr[o]fit','ˈprɑːfɪt','利益','Operating profit improved.','営業利益が改善しました。'],
+    ['st[o]ck','stɑːk','株式','The stock is listed on Nasdaq.','その株式はナスダックに上場しています。'],
+    ['b[o]nd','bɑːnd','社債','We issued a bond last year.','昨年、社債を発行しました。']]},
+  {label:'u = /ʌ/', tip:'口をあまり開けず、のどの奥で短く「ア」。', it:[
+    ['f[u]nd','fʌnd','資金・資金を出す','We need to fund the project.','そのプロジェクトに資金を充てる必要があります。'],
+    ['b[u]dget','ˈbʌdʒɪt','予算','We are over budget.','予算を超過しています。'],
+    ['adj[u]st','əˈdʒʌst','修正する','We need to adjust the entry.','仕訳を修正する必要があります。']]}
+]},
+{id:'magic-e', t:'マジック e', d:'「母音＋子音＋e」で終わるとき、最後の e は読まず、前の母音をアルファベットの名前（a＝エイ、i＝アイ、o＝オウ、u＝ユー、e＝イー）で読みます。', g:[
+  {label:'a_e = /eɪ/', tip:'「エ」から「イ」へ滑らかに動かします。「エー」と伸ばしません。', it:[
+    ['r[a]t[e]','reɪt','率・金利','The interest rate is fixed.','金利は固定です。'],
+    ['s[a]l[e]','seɪl','売却・販売','The sale closed in June.','その売却は6月に完了しました。'],
+    ['tr[a]d[e]','treɪd','取引・営業','Trade receivables increased.','営業債権が増加しました。'],
+    ['d[a]t[e]','deɪt','日付','What is the due date?','期日はいつですか。']]},
+  {label:'i_e = /aɪ/', tip:'大きく「ア」と言ってから、軽く「イ」を添えます。', it:[
+    ['pr[i]c[e]','praɪs','価格','The share price dropped.','株価が下がりました。'],
+    ['f[i]l[e]','faɪl','提出する','We file the report tomorrow.','明日、報告書を提出します。']]},
+  {label:'o_e = /oʊ/', tip:'「オ」から「ウ」へ。「オー」と伸ばしません。', it:[
+    ['n[o]t[e]','noʊt','注記','Please see note five.','注記5をご覧ください。'],
+    ['qu[o]t[e]','kwoʊt','見積り','Can you send a quote?','見積りを送ってもらえますか。'],
+    ['sc[o]p[e]','skoʊp','範囲','That is out of scope.','それは対象範囲外です。']]},
+  {label:'u_e = /juː/, e_e = /iː/', tip:'u は「ユー」、e は唇を横に引いた「イー」。', it:[
+    ['disp[u]t[e]','dɪˈspjuːt','争い・異議','The amount is in dispute.','その金額は係争中です。'],
+    ['compl[e]t[e]','kəmˈpliːt','完了した','The audit is complete.','監査は完了しました。']]}
+]},
+{id:'digraph', t:'子音の2文字', d:'2文字で1つの音になる子音の組み合わせです。1文字ずつ読まず、まとめて1音で出します。', g:[
+  {label:'sh = /ʃ/', tip:'唇を丸く突き出して、息だけで「シュ」。', it:[
+    ['[sh]are','ʃer','株式','Earnings per share went up.','1株当たり利益が増えました。'],
+    ['[sh]ortfall','ˈʃɔːrtfɔːl','不足額','There is a cash shortfall.','資金が不足しています。']]},
+  {label:'ch = /tʃ/', tip:'舌先を上の歯ぐきに付けてから、はじくように「チ」。', it:[
+    ['[ch]eck','tʃek','確認する','Let me check the numbers.','数字を確認させてください。'],
+    ['pur[ch]ase','ˈpɜːrtʃəs','購入・取得','The purchase price was allocated.','取得原価を配分しました。'],
+    ['ex[ch]ange','ɪksˈtʃeɪndʒ','為替・取引所','The exchange rate moved a lot.','為替レートが大きく動きました。']]},
+  {label:'th = /θ/（声を出さない）', tip:'舌先を上下の歯の間に軽くはさみ、息を通します。「ス」にならないように。', it:[
+    ['me[th]od','ˈmeθəd','方法','We use the equity method.','持分法を適用しています。'],
+    ['mon[th]','mʌnθ','月','We close the books every month.','毎月、月次決算を締めています。'],
+    ['grow[th]','ɡroʊθ','成長','Revenue growth was strong.','売上の伸びは好調でした。'],
+    ['[th]reshold','ˈθreʃhoʊld','基準値','It is below the threshold.','基準値を下回っています。']]},
+  {label:'th = /ð/（声を出す）', tip:'同じ舌の位置のまま声を出します。「ザ」にならないように。', it:[
+    ['o[th]er','ˈʌðər','その他の','Other income decreased.','その他の収益が減少しました。'],
+    ['wi[th]in','wɪˈðɪn','〜以内に','It is due within one year.','1年以内に期日が来ます。']]},
+  {label:'ph = /f/', tip:'上の歯を下唇に軽く当てて息を出します。f と同じ音です。', it:[
+    ['[ph]ase','feɪz','段階','We are in phase two.','現在は第2段階です。'],
+    ['gra[ph]','ɡræf','グラフ','Please look at this graph.','このグラフをご覧ください。']]},
+  {label:'qu = /kw/, ng = /ŋ/', tip:'qu は「ク」のあとすぐ唇を丸めます。ng は最後の g を言わず、鼻に抜きます。', it:[
+    ['[qu]arter','ˈkwɔːrtər','四半期','This quarter was strong.','今四半期は好調でした。'],
+    ['fili[ng]','ˈfaɪlɪŋ','提出書類','The filing is due on Friday.','提出期限は金曜日です。']]}
+]},
+{id:'vowel-team', t:'母音の2文字', d:'2文字で1つの音になる母音の組み合わせです。同じ音に複数のつづりがあります。', g:[
+  {label:'ea, ee = /iː/', tip:'唇を横に引いて長く「イー」。', it:[
+    ['l[ea]se','liːs','リース','The lease term is five years.','リース期間は5年です。'],
+    ['f[ee]','fiː','報酬・手数料','The audit fee increased.','監査報酬が上がりました。'],
+    ['agr[ee]ment','əˈɡriːmənt','契約','We signed the loan agreement.','融資契約を締結しました。']]},
+  {label:'ai, ay = /eɪ/', tip:'「エ」から「イ」へ。マジック e の a_e と同じ音です。', it:[
+    ['cl[ai]m','kleɪm','請求・債権','We filed a claim.','請求を申し立てました。'],
+    ['g[ai]n','ɡeɪn','利得','We recognized a gain.','利得を認識しました。'],
+    ['p[ay]able','ˈpeɪəbl','未払の・買掛','Accounts payable decreased.','買掛金が減少しました。']]},
+  {label:'oa, ow = /oʊ/', tip:'「オ」から「ウ」へ。「ローン」ではなく「ロウン」。', it:[
+    ['l[oa]n','loʊn','借入金・貸付','The loan matures next year.','その借入は来年満期を迎えます。'],
+    ['fl[ow]','floʊ','流れ','Cash flow was positive.','キャッシュ・フローはプラスでした。']]},
+  {label:'au = /ɔː/', tip:'口を縦に開けて「オー」。途中で音を変えません。', it:[
+    ['[au]dit','ˈɔːdɪt','監査','The audit starts in April.','監査は4月に始まります。'],
+    ['fr[au]d','frɔːd','不正','We assessed the fraud risk.','不正リスクを評価しました。'],
+    ['def[au]lt','dɪˈfɔːlt','債務不履行','There was no event of default.','債務不履行事由はありませんでした。']]},
+  {label:'ou, ow = /aʊ/', tip:'「ア」から「ウ」へ動かします。', it:[
+    ['acc[ou]nt','əˈkaʊnt','勘定','Which account is this?','これはどの勘定ですか。'],
+    ['am[ou]nt','əˈmaʊnt','金額','The amount is not material.','その金額に重要性はありません。'],
+    ['all[ow]ance','əˈlaʊəns','引当金','We increased the allowance.','引当金を積み増しました。']]},
+  {label:'oi, oy = /ɔɪ/', tip:'「オ」から「イ」へ動かします。', it:[
+    ['inv[oi]ce','ˈɪnvɔɪs','請求書','Please send the invoice.','請求書を送ってください。'],
+    ['empl[oy]ee','ɪmˈplɔɪiː','従業員','Employee benefits increased.','従業員給付が増加しました。']]},
+  {label:'ue, ew = /uː/', tip:'唇を丸く突き出して「ウー」。', it:[
+    ['accr[ue]','əˈkruː','発生計上する','We accrue bonuses monthly.','賞与は毎月引当計上しています。'],
+    ['d[ue]','duː','期日の来た','Payment is due tomorrow.','支払期日は明日です。'],
+    ['rev[iew]','rɪˈvjuː','レビュー','The review is complete.','レビューは完了しました。']]}
+]},
+{id:'r-vowel', t:'r つき母音', d:'母音のあとに r が来ると、母音と r が溶け合って別の音になります。舌先はどこにも付けず、奥へ引きます。', g:[
+  {label:'ar = /ɑːr/', tip:'口を大きく開けた「アー」から、舌を奥へ引いて r へ。', it:[
+    ['m[ar]gin','ˈmɑːrdʒɪn','利益率','Gross margin improved.','売上総利益率が改善しました。'],
+    ['ch[ar]ge','tʃɑːrdʒ','費用・請求','We recorded an impairment charge.','減損損失を計上しました。'],
+    ['m[ar]ket','ˈmɑːrkɪt','市場','The market was volatile.','市場は不安定でした。']]},
+  {label:'or, oar = /ɔːr/', tip:'「オー」から舌を奥へ引きます。', it:[
+    ['rep[or]t','rɪˈpɔːrt','報告書','The annual report is ready.','年次報告書ができました。'],
+    ['f[or]ecast','ˈfɔːrkæst','予測','We revised the forecast.','予測を修正しました。'],
+    ['b[oar]d','bɔːrd','取締役会','The board approved it.','取締役会が承認しました。']]},
+  {label:'er, ir, ur, ear = /ɜːr/', tip:'つづりは違っても同じ音。口をあまり開けず、舌を奥に引いたままの、こもった「アー」。', it:[
+    ['t[er]m','tɜːrm','期間・条件','The loan term is three years.','借入期間は3年です。'],
+    ['f[ir]m','fɜːrm','事務所・会社','Our audit firm is new.','監査法人が変わりました。'],
+    ['t[ur]nover','ˈtɜːrnoʊvər','回転率','Inventory turnover slowed.','棚卸資産の回転が鈍りました。'],
+    ['res[er]ve','rɪˈzɜːrv','引当・準備金','We released the reserve.','引当金を取り崩しました。'],
+    ['int[er]nal','ɪnˈtɜːrnl','内部の','Internal controls are effective.','内部統制は有効です。'],
+    ['[ear]nings','ˈɜːrnɪŋz','利益','Earnings were above guidance.','利益は業績予想を上回りました。']]},
+  {label:'語末の er, or = /ər/', tip:'弱く短く言います。「アー」と伸ばしません。', it:[
+    ['vend[or]','ˈvendər','仕入先','We paid the vendor.','仕入先に支払いました。'],
+    ['audit[or]','ˈɔːdɪtər','監査人','The auditor asked a question.','監査人から質問がありました。']]},
+  {label:'are = /er/', tip:'「エ」から r へ。', it:[
+    ['comp[are]','kəmˈper','比較する','Compare it to last year.','前年と比較してください。']]}
+]},
+{id:'stress', t:'強勢とあいまい母音', d:'長い単語は、ハイライトした音節だけを「強く・長く・高く」言います。それ以外の母音は力を抜いた /ə/（あいまい母音）になりやすく、ここが通じやすさを大きく左右します。', g:[
+  {label:'2〜3音節', tip:'ハイライト部分に山を1つ作り、残りは素早く弱く。カタカナのように全部を同じ強さで言わないこと。', it:[
+    ['ac[cru]al','əˈkruːəl','発生計上・未払計上','We booked an accrual.','未払計上しました。'],
+    ['[eq]uity','ˈekwəti','資本','Total equity decreased.','純資産合計が減少しました。'],
+    ['[rev]enue','ˈrevənuː','収益','Revenue is recognized over time.','収益は一定期間にわたり認識します。'],
+    ['de[ferred]','dɪˈfɜːrd','繰延の','Deferred revenue increased.','繰延収益が増加しました。'],
+    ['im[pair]ment','ɪmˈpermənt','減損','We tested goodwill for impairment.','のれんの減損テストを実施しました。'],
+    ['dis[clo]sure','dɪsˈkloʊʒər','開示','The disclosure is required.','その開示は必須です。'],
+    ['com[pli]ance','kəmˈplaɪəns','法令遵守','Compliance is my responsibility.','コンプライアンスは私の担当です。']]},
+  {label:'4音節以上', tip:'-tion, -ity で終わる単語は、その直前の音節が強くなります。', it:[
+    ['ma[te]rial','məˈtɪriəl','重要な','Is the difference material?','その差異は重要ですか。'],
+    ['re[ceiv]able','rɪˈsiːvəbl','債権','Accounts receivable increased.','売掛金が増加しました。'],
+    ['[in]ventory','ˈɪnvəntɔːri','棚卸資産','Inventory was counted yesterday.','昨日、実地棚卸を行いました。'],
+    ['sub[sid]iary','səbˈsɪdieri','子会社','The subsidiary was sold.','その子会社は売却されました。'],
+    ['lia[bil]ity','ˌlaɪəˈbɪləti','負債','We recognized a lease liability.','リース負債を認識しました。'],
+    ['depreci[a]tion','dɪˌpriːʃiˈeɪʃn','減価償却','Depreciation expense was flat.','減価償却費は横ばいでした。'],
+    ['amorti[za]tion','ˌæmərtəˈzeɪʃn','償却','Amortization of intangible assets.','無形資産の償却。'],
+    ['consoli[da]tion','kənˌsɑːlɪˈdeɪʃn','連結','We finished the consolidation.','連結作業が終わりました。'],
+    ['reconcili[a]tion','ˌrekənsɪliˈeɪʃn','調整・照合','The bank reconciliation is done.','銀行勘定調整が終わりました。']]}
+]},
+{id:'pairs', t:'言い分け', d:'日本語にない音の区別です。2つの単語を交互に聞いて、口の動きの違いを意識して言い分けます。単語をタップすると片方ずつ聞けます。', g:[
+  {label:'l と r', tip:'l は舌先を上の歯ぐきにしっかり付けます。r は舌先をどこにも付けず、唇を少し丸めます。', it:[
+    {w:'co[ll]ect',ipa:'kəˈlekt',ja:'回収する',w2:'co[rr]ect',ipa2:'kəˈrekt',ja2:'訂正する',ex:'Collect the cash and correct the entry.',exJa:'現金を回収し、仕訳を訂正してください。'},
+    {w:'[l]ate',ipa:'leɪt',ja:'遅れた',w2:'[r]ate',ipa2:'reɪt',ja2:'率',ex:'Late payments carry a higher rate.',exJa:'支払いが遅れると高い利率がかかります。'},
+    {w:'[l]oyalty',ipa:'ˈlɔɪəlti',ja:'ロイヤルティ（愛顧）',w2:'[r]oyalty',ipa2:'ˈrɔɪəlti',ja2:'ロイヤリティ（使用料）',ex:'Loyalty points and royalty income are different.',exJa:'ポイント制度と使用料収入は別のものです。'}]},
+  {label:'v と b', tip:'v は上の歯を下唇に軽く当てて震わせます。b は両唇を閉じてから開きます。', it:[
+    {w:'[v]est',ipa:'vest',ja:'権利が確定する',w2:'[b]est',ipa2:'best',ja2:'最良の',ex:'The options vest next year.',exJa:'そのオプションは来年権利が確定します。'},
+    {w:'cur[v]e',ipa:'kɜːrv',ja:'曲線',w2:'cur[b]',ipa2:'kɜːrb',ja2:'抑制する',ex:'The yield curve is flat.',exJa:'イールドカーブは平坦です。'}]},
+  {label:'th と s', tip:'th は舌先を歯の間に軽く出します。s は舌を歯の裏に置き、出しません。', it:[
+    {w:'wor[th]',ipa:'wɜːrθ',ja:'価値',w2:'wor[se]',ipa2:'wɜːrs',ja2:'より悪い',ex:'It is worth less, and the outlook is worse.',exJa:'価値は下がり、見通しも悪化しています。'},
+    {w:'grow[th]',ipa:'ɡroʊθ',ja:'成長',w2:'gro[ss]',ipa2:'ɡroʊs',ja2:'総額の',ex:'Gross profit growth was strong.',exJa:'売上総利益の伸びは好調でした。'}]},
+  {label:'/æ/ と /ʌ/', tip:'/æ/ は「エ」の口で大きく「ア」。/ʌ/ は口を小さく、短く「ア」。', it:[
+    {w:'m[a]tch',ipa:'mætʃ',ja:'一致する',w2:'m[u]ch',ipa2:'mʌtʃ',ja2:'多くの',ex:'The totals do not match by much.',exJa:'合計はほとんど合っていません。'},
+    {w:'c[a]p',ipa:'kæp',ja:'上限',w2:'c[u]p',ipa2:'kʌp',ja2:'カップ',ex:'There is a cap on the fee.',exJa:'報酬には上限があります。'}]},
+  {label:'/ɔː/ と /oʊ/', tip:'/ɔː/ は口を縦に開けたまま変えない音。/oʊ/ は「オ」から「ウ」へ動く音。', it:[
+    {w:'c[o]st',ipa:'kɔːst',ja:'原価',w2:'c[oa]st',ipa2:'koʊst',ja2:'沿岸',ex:'The cost is higher on the west coast.',exJa:'西海岸のほうがコストは高いです。'}]},
+  {label:'sh と s', tip:'sh は唇を丸めて「シュ」。s は唇を横に引いて「スィ」。seat は「シート」ではなく「スィート」。', it:[
+    {w:'[sh]eet',ipa:'ʃiːt',ja:'表',w2:'[s]eat',ipa2:'siːt',ja2:'席',ex:'Please have a seat and open the balance sheet.',exJa:'お掛けになって、貸借対照表を開いてください。'}]},
+  {label:'/iː/ と /ɪ/', tip:'/iː/ は唇を横に引いて長く。/ɪ/ は力を抜いて短く、「エ」に寄せます。', it:[
+    {w:'f[ee]l',ipa:'fiːl',ja:'感じる',w2:'f[i]ll',ipa2:'fɪl',ja2:'埋める',ex:'I feel we should fill the position.',exJa:'そのポジションは補充すべきだと思います。'}]}
+]},
+{id:'exception', t:'ルールの例外', d:'フォニックスのルールどおりに読めない単語です。仕事で使うものは数が限られるので、そのまま覚えます。ハイライトは「読まない文字」または「特別な読み方をする文字」です。', g:[
+  {label:'読まない文字', tip:'ハイライトの文字は声に出しません。つづりに引っ張られないように、音だけをまねします。', it:[
+    ['de[b]tor','ˈdetər','債務者','The debtor paid in full.','債務者は全額を支払いました。','b は読みません。'],
+    ['dou[b]tful','ˈdaʊtfl','回収が疑わしい','Allowance for doubtful accounts.','貸倒引当金。','b は読みません。'],
+    ['recei[p]t','rɪˈsiːt','領収書・受領','Please keep the receipt.','領収書を保管してください。','p は読みません。'],
+    ['mor[t]gage','ˈmɔːrɡɪdʒ','抵当・住宅ローン','The mortgage is secured by the building.','その抵当は建物を担保にしています。','t は読みません。'],
+    ['colum[n]','ˈkɑːləm','列','Add a column for variance.','差異の列を追加してください。','n は読みません。'],
+    ['[w]rite-off','ˈraɪt ɔːf','償却・貸倒処理','We recorded a write-off.','貸倒償却を計上しました。','w は読みません。'],
+    ['ans[w]er','ˈænsər','回答','I will answer by Friday.','金曜日までに回答します。','w は読みません。'],
+    ['[h]our','ˈaʊər','時間','Billable hours increased.','請求可能時間が増えました。','h は読みません。our と同じ音です。'],
+    ['ha[l]f','hæf','半分・半期','First half results were strong.','上半期の業績は好調でした。','l は読みません。'],
+    ['g[u]arantee','ˌɡærənˈtiː','保証','The parent provides a guarantee.','親会社が保証を提供しています。','u は読みません。強く読むのは最後の tee です。']]},
+  {label:'特別な読み方', tip:'ルールから外れた読み方をします。お手本の音をそのまま覚えます。', it:[
+    ['s[ch]edule','ˈskedʒuːl','明細表・予定','Please send the schedule.','明細表を送ってください。','ch は /k/ と読みます。'],
+    ['i[ss]ue','ˈɪʃuː','論点・発行する','This is an accounting issue.','これは会計上の論点です。','ss は sh の音 /ʃ/ です。'],
+    ['y[ie]ld','jiːld','利回り','The bond yield rose.','債券利回りが上昇しました。','ie は「イー」と読みます。'],
+    ['b[u]s[i]ness','ˈbɪznəs','事業','The business was acquired.','その事業は買収されました。','u は /ɪ/ と読み、i は読みません。2音節です。']]}
+]}
+];
+
+/* ---------- 準備 ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const plain = w => w.replace(/[\[\]]/g, '');
+const markHTML = w => esc(w).replace(/\[/g, '<mark>').replace(/\]/g, '</mark>');
+let total = 0;
+lessons.forEach(L => {
+  L.items = [];
+  L.g.forEach(g => g.it.forEach(a => {
+    const o = Array.isArray(a) ? {w:a[0], ipa:a[1], ja:a[2], ex:a[3], exJa:a[4], n:a[5]} : a;
+    o.g = g;
+    o.key = L.id + ':' + plain(o.w) + (o.w2 ? '+' + plain(o.w2) : '');
+    L.items.push(o); total++;
+  }));
+});
+
+const st = {l:0, i:0};
+let done = new Set();
+let lastBlob = null, fbState = {text:'', cls:''};
+
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+(function restore(){
+  try{ const p = JSON.parse(lsGet('fp-pos') || 'null');
+    if(p && lessons[p.l] && lessons[p.l].items[p.i]){ st.l = p.l; st.i = p.i; } }catch(e){}
+  try{ const d = JSON.parse(lsGet('fp-done') || '[]'); if(Array.isArray(d)) done = new Set(d); }catch(e){}
+})();
+
+/* ---------- 進み具合の保存 ---------- */
+let dbDoc = null, cloudLoading = false, pendingOps = [], writing = false, dirty = false;
+function setSaveNote(kind){
+  const t = {
+    local:'進み具合はこのブラウザに保存されます。',
+    cloud:'進み具合はアカウントに保存され、別の端末でも続きから練習できます。',
+    err:'進み具合をアカウントに保存できませんでした。このブラウザには残っています。'
+  }[kind];
+  $('#saveNote').textContent = t;
+}
+async function flushCloud(){
+  if(!dbDoc) return;
+  if(writing){ dirty = true; return; }
+  writing = true;
+  try{
+    do{ dirty = false; await dbDoc.set({done:[...done], updatedAt:Date.now()}); }while(dirty);
+    setSaveNote('cloud');
+  }catch(e){ setSaveNote('err'); }
+  finally{ writing = false; }
+}
+function saveDone(){ lsSet('fp-done', JSON.stringify([...done])); flushCloud(); }
+function toggleDone(key){
+  const add = !done.has(key);
+  if(add) done.add(key); else done.delete(key);
+  if(cloudLoading) pendingOps.push([key, add]);
+  saveDone();
+}
+async function initCloud(){
+  if(!(window.claude && typeof window.claude.use === 'function')) return;
+  cloudLoading = true;
+  try{
+    const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    if(!db || !user) return;
+    const uid = await user.id();
+    if(!uid) return;
+    const ref = db.doc('data/users/' + uid + '/progress');
+    const snap = await ref.get();
+    dbDoc = ref;
+    if(snap.exists){
+      const d = snap.data() || {};
+      const next = new Set(Array.isArray(d.done) ? d.done : []);
+      pendingOps.forEach(([k, add]) => add ? next.add(k) : next.delete(k));
+      done = next;
+      lsSet('fp-done', JSON.stringify([...done]));
+      if(pendingOps.length) flushCloud();
+    }else if(done.size){
+      flushCloud();
+    }
+    setSaveNote('cloud');
+    renderAll();
+  }catch(e){ /* アカウント保存が使えないときは、このブラウザの保存だけで続ける */ }
+  finally{ cloudLoading = false; pendingOps = []; }
+}
+
+/* ---------- お手本の音声 ---------- */
+const synth = window.speechSynthesis || null;
+let voices = [], voice = null;
+function scoreVoice(v){
+  let s = 0;
+  if(/^en[-_]US/i.test(v.lang)) s += 10;
+  if(/Samantha|Ava|Allison|Google US English|Aria|Jenny|Natural|Enhanced|Premium/i.test(v.name)) s += 5;
+  return s;
+}
+function loadVoices(){
+  if(!synth) return;
+  voices = synth.getVoices().filter(v => /^en([-_]|$)/i.test(v.lang));
+  const sel = $('#voiceSel');
+  if(!voices.length){ sel.innerHTML = '<option>端末の標準の声</option>'; sel.disabled = true; return; }
+  sel.disabled = false;
+  const saved = lsGet('fp-voice');
+  voice = voices.find(v => v.name === saved) || [...voices].sort((a,b) => scoreVoice(b) - scoreVoice(a))[0];
+  sel.innerHTML = voices.map(v => `<option value="${esc(v.name)}"${v === voice ? ' selected' : ''}>${esc(v.name)}（${esc(v.lang)}）</option>`).join('');
+}
+function speak(text, rate, onend){
+  if(!synth){ setFb('このブラウザには読み上げ機能がないため、お手本を再生できません。', 'ng'); return; }
+  synth.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = voice ? voice.lang : 'en-US';
+  if(voice) u.voice = voice;
+  u.rate = rate;
+  if(onend) u.onend = onend;
+  synth.speak(u);
+}
+function speakItem(it, rate){
+  if(it.w2) speak(plain(it.w), rate, () => setTimeout(() => speak(plain(it.w2), rate), 350));
+  else speak(plain(it.w), rate);
+}
+
+/* ---------- マイク ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+const micPolicyOk = !(document.featurePolicy && document.featurePolicy.allowsFeature && !document.featurePolicy.allowsFeature('microphone'));
+const canMic = micPolicyOk && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+const canRec = canMic && !!window.MediaRecorder;
+const canSR = micPolicyOk && !!SR;
+let rec = null, micStream = null, recTimer = 0, recChunks = [], audioCtx = null, sr = null, listening = false;
+
+/* マイクはページを開いている間に1回だけ取得して使い回す（許可の確認を1回で済ませるため） */
+const holdMic = location.protocol === 'file:';
+function dropMic(){ if(micStream){ micStream.getTracks().forEach(t => t.stop()); micStream = null; } }
+const micLive = () => !!(micStream && micStream.getAudioTracks().some(t => t.readyState === 'live'));
+async function ensureMic(){
+  if(micLive()) return micStream;
+  micStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  micStream.getAudioTracks().forEach(t => t.addEventListener('ended', () => { if(!micLive()){ micStream = null; renderCard(); } }));
+  return micStream;
+}
+function releaseMic(){
+  if(rec && rec.state === 'recording') rec.stop();
+  if(listening && sr){ try{ sr.abort(); }catch(e){} }
+  if(micStream){ micStream.getTracks().forEach(t => t.stop()); micStream = null; }
+  setFb('マイクを切りました。次に使うときにもう一度許可を求められます。', '');
+  renderCard();
+}
+
+function micDenied(){ setFb('マイクを使えませんでした。ブラウザのマイク許可を確認してください。使えない場合は「聞く」と「言えた」だけで進められます。', 'ng'); }
+async function toggleRec(){
+  if(rec && rec.state === 'recording'){ rec.stop(); return; }
+  if(synth) synth.cancel();
+  let stream;
+  try{ stream = await ensureMic(); }
+  catch(e){ micDenied(); return; }
+  recChunks = [];
+  try{ rec = new MediaRecorder(stream); }
+  catch(e){ if(!holdMic) dropMic(); setFb('このブラウザでは録音できません。', 'ng'); return; }
+  rec.ondataavailable = e => { if(e.data && e.data.size) recChunks.push(e.data); };
+  rec.onstop = () => {
+    clearTimeout(recTimer);
+    if(!holdMic) dropMic();
+    lastBlob = recChunks.length ? new Blob(recChunks, {type: rec.mimeType || ''}) : null;
+    setFb(lastBlob ? '録音しました。「自分の声を聞く」でお手本と比べてください。' : '音が録れませんでした。もう一度試してください。', lastBlob ? '' : 'ng');
+    renderCard();
+  };
+  rec.start();
+  recTimer = setTimeout(() => { if(rec && rec.state === 'recording') rec.stop(); }, 8000);
+  setFb('録音中です。言い終わったら「録音を止める」を押してください。', '');
+  renderCard();
+}
+async function playMine(){
+  if(!lastBlob) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') await audioCtx.resume();
+    const buf = await audioCtx.decodeAudioData(await lastBlob.arrayBuffer());
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf; src.connect(audioCtx.destination); src.start();
+  }catch(e){
+    try{ await new Audio(URL.createObjectURL(lastBlob)).play(); }
+    catch(e2){ setFb('録音を再生できませんでした。', 'ng'); }
+  }
+}
+const flat = s => s.toLowerCase().replace(/[^a-z]/g, '');
+function judge(it, alts){
+  const top = alts[0] || '';
+  const hit = (a, w) => flat(a).includes(flat(plain(w)));
+  if(it.w2){
+    const a = hit(top, it.w), b = hit(top, it.w2);
+    if(a && b) return [`「${top}」と聞き取れました。2つとも言い分けられています。`, 'ok'];
+    if(a || b) return [`「${plain(a ? it.w : it.w2)}」に聞こえました。言いたかった単語と違う場合は、口の形のコツをもう一度確認してください。`, 'ok'];
+    return [`「${top}」と聞き取られました。お手本をもう一度聞いてから試してください。`, 'ng'];
+  }
+  if(hit(top, it.w)) return [`「${top}」と聞き取れました。通じています。`, 'ok'];
+  if(alts.some(a => hit(a, it.w))) return [`第1候補は「${top}」でしたが、「${plain(it.w)}」も候補に出ました。ハイライト部分をはっきり言ってみてください。`, ''];
+  return [`「${top}」と聞き取られました。お手本をもう一度聞いてから試してください。`, 'ng'];
+}
+async function checkPron(){
+  if(listening && sr){ sr.stop(); return; }
+  const it = cur();
+  if(synth) synth.cancel();
+  let track = null;
+  if(canMic && holdMic){
+    try{ track = (await ensureMic()).getAudioTracks()[0] || null; }
+    catch(e){ micDenied(); return; }
+  }
+  try{ sr = new SR(); }catch(e){ setFb('このブラウザでは発音チェックを使えません。', 'ng'); return; }
+  sr.lang = 'en-US'; sr.interimResults = false; sr.maxAlternatives = 5;
+  let got = false;
+  sr.onresult = e => {
+    got = true;
+    const alts = Array.from(e.results[0]).map(a => a.transcript.trim()).filter(Boolean);
+    const [t, c] = judge(it, alts);
+    setFb(t, c);
+  };
+  sr.onerror = e => {
+    got = true;
+    if(e.error === 'not-allowed' || e.error === 'service-not-allowed') micDenied();
+    else if(e.error === 'no-speech') setFb('声を聞き取れませんでした。マイクに近づいてもう一度試してください。', 'ng');
+    else if(e.error === 'audio-capture') setFb('マイクの音を取得できませんでした。マイクの接続を確認してください。', 'ng');
+    else if(e.error === 'network') setFb('音声認識に接続できませんでした。通信状況を確認してください。', 'ng');
+    else if(e.error !== 'aborted') setFb('発音チェックを実行できませんでした。', 'ng');
+  };
+  sr.onend = () => { listening = false; if(!got) setFb('声を聞き取れませんでした。もう一度試してください。', 'ng'); renderCard(); };
+  try{
+    /* 取得済みのマイクを渡せるブラウザでは、ここで許可を聞き直されない */
+    try{ if(track) sr.start(track); else sr.start(); }
+    catch(e){ if(track) sr.start(); else throw e; }
+    listening = true; setFb('聞き取り中です。単語か例文を言ってください。', ''); renderCard();
+  }catch(e){ setFb('発音チェックを開始できませんでした。', 'ng'); }
+}
+
+/* ---------- 画面 ---------- */
+const cur = () => lessons[st.l].items[st.i];
+const countDone = L => L.items.filter(x => done.has(x.key)).length;
+function setFb(text, cls){ fbState = {text, cls: cls || ''}; const el = $('#fb'); if(el){ el.textContent = text; el.className = 'fb ' + (cls || ''); } }
+
+function renderTop(){
+  const n = lessons.reduce((s, L) => s + countDone(L), 0);
+  $('#ovText').innerHTML = `<strong>${n}</strong> / ${total} 語を言えた`;
+  $('#ovBar').style.width = (total ? n / total * 100 : 0) + '%';
+}
+function renderLessons(){
+  $('#lessons').innerHTML = lessons.map((L, i) => {
+    const c = countDone(L), t = L.items.length;
+    return `<button class="lesson" data-l="${i}" aria-current="${i === st.l}">
+      <span class="lt"><span class="num">${i + 1}</span> ${esc(L.t)}</span>
+      <span class="lc">${c} / ${t} 語</span>
+      <span class="bar"><i style="width:${c / t * 100}%"></i></span></button>`;
+  }).join('');
+}
+function renderRule(){
+  const L = lessons[st.l];
+  $('#rule').innerHTML = `<h2>${st.l + 1}. ${esc(L.t)}</h2><p>${esc(L.d)}</p>`;
+}
+const playIcon = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.5v13l11-6.5z"/></svg>';
+function wcol(w, ipa, ja, which){
+  return `<div class="wcol"><button class="word" data-act="say" data-w="${which}" aria-label="${esc(plain(w))} を聞く">${markHTML(w)}</button>
+    <p class="meta"><span class="ipa">/${esc(ipa)}/</span><span class="ja">${esc(ja)}</span></p></div>`;
+}
+function renderCard(){
+  const L = lessons[st.l], it = cur(), isDone = done.has(it.key), recording = !!(rec && rec.state === 'recording');
+  const card = $('#card');
+  card.className = 'card' + (isDone ? ' done' : '') + (it.w2 ? ' pair' : '');
+  let h = `<div class="sound"><span class="sound-label">${esc(it.g.label)}</span><p class="tip">${esc(it.g.tip)}</p></div>`;
+  h += `<div class="word-line">${wcol(it.w, it.ipa, it.ja, '1')}`;
+  if(it.w2) h += `<span class="vs" aria-hidden="true">/</span>${wcol(it.w2, it.ipa2, it.ja2, '2')}`;
+  h += `</div>`;
+  if(it.n) h += `<p class="note">${esc(it.n)}</p>`;
+  h += `<div class="acts"><button class="btn primary" data-act="listen">聞く</button><button class="btn" data-act="slow">ゆっくり聞く</button></div>`;
+  h += `<div class="ex"><button class="icon-btn" data-act="ex" aria-label="例文を聞く">${playIcon}</button>
+    <div><p class="ex-en" lang="en">${esc(it.ex)}</p><p class="ex-ja">${esc(it.exJa)}</p></div></div>`;
+  if(canRec || canSR){
+    h += `<div class="mic"><div class="acts">`;
+    if(canRec) h += `<button class="btn${recording ? ' on' : ''}" data-act="rec">${recording ? '録音を止める' : '録音する'}</button>
+      <button class="btn" data-act="mine"${lastBlob && !recording ? '' : ' disabled'}>自分の声を聞く</button>`;
+    if(canSR) h += `<button class="btn${listening ? ' on' : ''}" data-act="check">${listening ? '聞き取りを止める' : '発音をチェック'}</button>`;
+    h += `</div>`;
+    if(canSR) h += `<p class="hint">発音チェックは、音声認識が英語として聞き取れたかを見る目安です。採点ではありません。</p>`;
+    if(holdMic && micLive()) h += `<p class="hint">マイクはオンのままです。<button class="linkbtn" data-act="micoff">マイクを切る</button></p>`;
+    h += `</div>`;
+  }else{
+    h += `<p class="hint">この画面ではマイクを使えないため、録音と発音チェックは出していません。「聞く」→ 声に出す →「言えた」で進められます。</p>`;
+  }
+  h += `<p class="fb ${fbState.cls}" id="fb" role="status" aria-live="polite">${esc(fbState.text)}</p>`;
+  h += `<div class="nav"><button class="btn quiet" data-act="prev"${st.i === 0 ? ' disabled' : ''}>前へ</button>
+    <span class="pos">${st.i + 1} / ${L.items.length}</span>
+    <button class="btn quiet" data-act="next"${st.i === L.items.length - 1 ? ' disabled' : ''}>次へ</button>
+    <span class="grow"></span>
+    <button class="btn ${isDone ? '' : 'primary'}" data-act="done">${isDone ? '「言えた」を取り消す' : '言えた'}</button></div>`;
+  card.innerHTML = h;
+}
+function renderChips(){
+  const L = lessons[st.l];
+  $('#chips').innerHTML = L.items.map((it, i) =>
+    `<button class="chip${done.has(it.key) ? ' done' : ''}" data-i="${i}" aria-current="${i === st.i}" lang="en">${esc(plain(it.w))}${it.w2 ? ' / ' + esc(plain(it.w2)) : ''}</button>`).join('');
+}
+function renderAll(){ renderTop(); renderLessons(); renderRule(); renderCard(); renderChips(); }
+
+function stopAudio(){
+  if(synth) synth.cancel();
+  if(rec && rec.state === 'recording') rec.stop();
+  if(listening && sr){ try{ sr.abort(); }catch(e){} }
+}
+function go(l, i){
+  stopAudio();
+  st.l = l; st.i = i; lastBlob = null; fbState = {text:'', cls:''};
+  lsSet('fp-pos', JSON.stringify(st));
+  renderAll();
+}
+
+/* ---------- 操作 ---------- */
+$('#lessons').addEventListener('click', e => {
+  const b = e.target.closest('.lesson'); if(!b) return;
+  const l = +b.dataset.l, L = lessons[l];
+  const firstOpen = L.items.findIndex(x => !done.has(x.key));
+  go(l, firstOpen < 0 ? 0 : firstOpen);
+});
+$('#chips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if(b) go(st.l, +b.dataset.i);
+});
+$('#card').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if(!b || b.disabled) return;
+  const it = cur(), L = lessons[st.l], a = b.dataset.act;
+  if(a === 'say') speak(plain(b.dataset.w === '2' ? it.w2 : it.w), 0.9);
+  else if(a === 'listen') speakItem(it, 0.9);
+  else if(a === 'slow') speakItem(it, 0.55);
+  else if(a === 'ex') speak(it.ex, 0.9);
+  else if(a === 'rec') toggleRec();
+  else if(a === 'mine') playMine();
+  else if(a === 'check') checkPron();
+  else if(a === 'micoff') releaseMic();
+  else if(a === 'prev' && st.i > 0) go(st.l, st.i - 1);
+  else if(a === 'next' && st.i < L.items.length - 1) go(st.l, st.i + 1);
+  else if(a === 'done'){
+    const was = done.has(it.key);
+    toggleDone(it.key);
+    if(!was && st.i < L.items.length - 1) go(st.l, st.i + 1);
+    else{
+      if(!was && countDone(L) === L.items.length) setFb('このレッスンの単語をすべて言えました。', 'ok');
+      renderAll();
+    }
+  }
+});
+$('#voiceSel').addEventListener('change', e => {
+  voice = voices.find(v => v.name === e.target.value) || voice;
+  if(voice) lsSet('fp-voice', voice.name);
+  speakItem(cur(), 0.9);
+});
+document.addEventListener('keydown', e => {
+  if(e.target.closest('select, input, textarea') || e.metaKey || e.ctrlKey || e.altKey) return;
+  const L = lessons[st.l];
+  if(e.key === 'ArrowRight' && st.i < L.items.length - 1) go(st.l, st.i + 1);
+  else if(e.key === 'ArrowLeft' && st.i > 0) go(st.l, st.i - 1);
+});
+
+setSaveNote('local');
+renderAll();
+if(synth){ loadVoices(); if('onvoiceschanged' in synth) synth.onvoiceschanged = loadVoices; }
+else{ $('#voiceSel').innerHTML = '<option>読み上げ機能がありません</option>'; $('#voiceSel').disabled = true; }
+initCloud();
+</script>
+</body>
+</html>
